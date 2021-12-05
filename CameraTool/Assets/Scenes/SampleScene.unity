@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 1478.8682, g: 1831.9521, b: 2425.4668, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -16248,7 +16248,7 @@ MonoBehaviour:
     distanceFadeStart: 50
     distanceFadeEnd: 60
     textureIndex: 0
-    textureOffset: {x: -0, y: -0, z: 0}
+    textureOffset: {x: -0, y: -6.068046, z: 0}
   m_Version: 2
 --- !u!1001 &1504255721
 PrefabInstance:
@@ -25717,6 +25717,7 @@ GameObject:
   - component: {fileID: 1980443233}
   - component: {fileID: 1980443232}
   - component: {fileID: 1980443231}
+  - component: {fileID: 1980443235}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: Untagged
@@ -25897,12 +25898,24 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1980443230}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -6, y: 4.8999996, z: 0}
+  m_LocalPosition: {x: -6, y: 4.9665365, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1980443235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980443230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80ca82655ea745343869d1dffdc20635, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1981861126
 GameObject:
   m_ObjectHideFlags: 3
