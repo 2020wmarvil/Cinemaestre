@@ -11,43 +11,61 @@ using UnityEngine.InputSystem;
 // enum to choose mode
 // editor depending on that enum
 // someway to trigger event
-// ability to interact from script
+// ability to interact from script (API)
+// layer and blend multiple effects
+// create a timeline of effects?
 
-namespace CinemaestreCamera {
+namespace Cinemaestre {
 	public enum CameraEffect { PAN, ZOOM, FADE, FOV }
 
 	public class CinemaestreCamera : MonoBehaviour {
-		[SerializeField] public CameraEffect cameraEffect;
-		[SerializeField] bool autoplay;
+		[HideInInspector] public CameraEffect cameraEffect;
 
-		[SerializeField] bool loop;
-		[SerializeField] bool pingpong;
+		public LeanTweenType easeType;
+		public bool customEase;
+		public AnimationCurve easeAnimationCurve; // only show this if customEase is true
+		public bool autoplay;
+		public bool loopForever;
+		public int loops; // this should not show up if loop is checked
+		public bool pingpong; // this should only show up if loop is checked
 
+		public float duration;
 
-		[SerializeField] LeanTweenType easeType;
-
-
-		//[SerializeField] AnimationCurve animationCurve;
+		public float to;
+		public float from;
 
 		void Update() {
 			if (Keyboard.current.spaceKey.wasPressedThisFrame) {
-				LeanTween.value(0f, 1f, 1f)
-				 .setOnUpdate((float value) => {
-				 }).setLoopPingPong()
-				 .setEaseInOutCubic();
+				Vector3 initialPos = transform.position;
+
+				LTDescr lt = LeanTween.value(0f, 1f, duration)
+					.setOnUpdate((float value) => {
+						//Slide(value, initialPos);
+						Pan(value, Quaternion.identity);
+					}).setLoopPingPong(loops);
+
+				if (customEase) { // make this work
+					lt.setEase(easeAnimationCurve);
+				} else {
+					lt.setEase(easeType);
+				}
 			}
+		}
+
+		void Slide(float value, Vector3 initialPos) {
+			transform.position = initialPos + new Vector3(0f, 0f, value);
+		}
+
+		void Pan(float value, Quaternion initialRot) {
+		//	transform.position = initialPos + new Vector3(0f, 0f, value);
+	        transform.rotation = Quaternion.identity * Quaternion.AngleAxis(value, Vector3.up);
+		}
+
+		void Zoom() { // find a way to do this without changing the FOV
 
 		}
 
-		void Pan() {
-
-		}
-
-		void Zoom() {
-
-		}
-
-		void Fade() { // TODO: get clarification on this one
+		void Fade() { // screen fade
 
 		}
 

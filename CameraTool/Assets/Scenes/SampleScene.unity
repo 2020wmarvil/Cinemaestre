@@ -16248,7 +16248,7 @@ MonoBehaviour:
     distanceFadeStart: 50
     distanceFadeEnd: 60
     textureIndex: 0
-    textureOffset: {x: -0, y: -52.479523, z: 0}
+    textureOffset: {x: -0, y: -116.750114, z: 0}
   m_Version: 2
 --- !u!1001 &1504255721
 PrefabInstance:
@@ -25917,10 +25917,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraEffect: 3
-  autoplay: 0
-  loop: 0
-  pingpong: 0
   easeType: 0
+  customEase: 0
+  easeAnimationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  autoplay: 0
+  loopForever: 0
+  loops: 0
+  pingpong: 0
+  duration: 1
+  to: 0
+  from: 0
 --- !u!1 &1981861126
 GameObject:
   m_ObjectHideFlags: 3
