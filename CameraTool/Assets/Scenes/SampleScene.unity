@@ -16248,7 +16248,7 @@ MonoBehaviour:
     distanceFadeStart: 50
     distanceFadeEnd: 60
     textureIndex: 0
-    textureOffset: {x: -0, y: -6.068046, z: 0}
+    textureOffset: {x: -0, y: -52.479523, z: 0}
   m_Version: 2
 --- !u!1001 &1504255721
 PrefabInstance:
@@ -25916,6 +25916,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ca82655ea745343869d1dffdc20635, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraEffect: 3
+  autoplay: 0
+  loop: 0
+  pingpong: 0
+  easeType: 0
 --- !u!1 &1981861126
 GameObject:
   m_ObjectHideFlags: 3

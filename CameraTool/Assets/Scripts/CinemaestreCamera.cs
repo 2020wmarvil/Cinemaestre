@@ -14,23 +14,45 @@ using UnityEngine.InputSystem;
 // ability to interact from script
 
 namespace CinemaestreCamera {
+	public enum CameraEffect { PAN, ZOOM, FADE, FOV }
+
 	public class CinemaestreCamera : MonoBehaviour {
-		Vector3 pos;
-	
-		private void Awake() {
-			pos = transform.position;
-		}
-	
-		private void Update() {
+		[SerializeField] public CameraEffect cameraEffect;
+		[SerializeField] bool autoplay;
+
+		[SerializeField] bool loop;
+		[SerializeField] bool pingpong;
+
+
+		[SerializeField] LeanTweenType easeType;
+
+
+		//[SerializeField] AnimationCurve animationCurve;
+
+		void Update() {
 			if (Keyboard.current.spaceKey.wasPressedThisFrame) {
-				transform.position = pos + new Vector3(0f, Mathf.Sin(Time.time), 0f);
-	
 				LeanTween.value(0f, 1f, 1f)
 				 .setOnUpdate((float value) => {
-					 transform.position = pos + new Vector3(0f, value, 0f);
 				 }).setLoopPingPong()
 				 .setEaseInOutCubic();
 			}
+
+		}
+
+		void Pan() {
+
+		}
+
+		void Zoom() {
+
+		}
+
+		void Fade() { // TODO: get clarification on this one
+
+		}
+
+		void FOV() {
+
 		}
 	}
 }
