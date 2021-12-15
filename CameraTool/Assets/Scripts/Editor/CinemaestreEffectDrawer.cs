@@ -4,36 +4,117 @@ using Cinemaestre;
 
 [CustomPropertyDrawer(typeof(CinemaestreEffect))]
 public class ColorPointDrawer : PropertyDrawer {
+	float extraHeight = 0f;
+	float lineHeight = 20f;
 
 	public override void OnGUI (Rect position, SerializedProperty property, GUIContent label) {
-		label = EditorGUI.BeginProperty(position, label, property);
-		EditorGUI.PrefixLabel(position, label);
+		float yVal = 0f;
 
+		label = EditorGUI.BeginProperty(position, label, property); 
 		EditorGUI.indentLevel = 2;
 
-		EditorGUI.PropertyField(new Rect(0f, 20f, position.width, 20f), property.FindPropertyRelative("effect"));
-		EditorGUI.PropertyField(new Rect(0f, 40f, position.width, 20f), property.FindPropertyRelative("duration"));
+		#region GENERAL
+		EditorGUI.indentLevel = 0;
+		EditorGUI.LabelField(new Rect(position.x, position.y + yVal, position.width, lineHeight), new GUIContent("General")); yVal += lineHeight;
+		EditorGUI.indentLevel = 2;
+		EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("duration"),
+			new GUIContent("Duration", "Duration of the camera effect")); yVal += lineHeight;
+		#endregion
 
-		EditorGUI.PropertyField(new Rect(0f, 60f, position.width, 20f), property.FindPropertyRelative("loop"));
-
+		#region LOOPING
+		EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("loop"),
+			new GUIContent("Loop", "Enable the camera effect to loop")); yVal += lineHeight;
 		SerializedProperty loopProp = property.FindPropertyRelative("loop");
 		if (loopProp.boolValue) {
-			EditorGUI.PropertyField(new Rect(0f, 80f, position.width, 20f), property.FindPropertyRelative("iterations"));
-			EditorGUI.PropertyField(new Rect(0f, 100f, position.width, 20f), property.FindPropertyRelative("loopForever"));
-			EditorGUI.PropertyField(new Rect(0f, 120f, position.width, 20f), property.FindPropertyRelative("pingpong"));
+			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("loopForever"),
+				new GUIContent("Loop Forever", "Loop indefinitely")); yVal += lineHeight;
+			SerializedProperty loopForeverProp = property.FindPropertyRelative("loopForever");
+			if (!loopForeverProp.boolValue) {
+				EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("iterations"),
+					new GUIContent("Iterations", "The number of times to loop")); yVal += lineHeight;
+			}
+			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("pingpong"),
+				new GUIContent("Ping-Pong", "Loop will alterante between playing forwards and backwards")); yVal += lineHeight;
 		}
+		#endregion
 
-		EditorGUI.PropertyField(new Rect(0f, 140f, position.width, 20f), property.FindPropertyRelative("easeType"));
-		EditorGUI.PropertyField(new Rect(0f, 160f, position.width, 20f), property.FindPropertyRelative("customEase"));
-		EditorGUI.PropertyField(new Rect(0f, 180f, position.width, 20f), property.FindPropertyRelative("easeAnimationCurve"));
+		#region EASING
+		SerializedProperty easeProp = property.FindPropertyRelative("customEase");
+		if (easeProp.boolValue) {
+			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("easeAnimationCurve"),
+				new GUIContent("Ease Curve", "Custom animation curve for the ease function")); yVal += lineHeight;
+		} else {
+			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("easeType"),
+				new GUIContent("Ease Function", "Ease function for smooth camera animation")); yVal += lineHeight;
+		}
+		EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("customEase"),
+			new GUIContent("Custom Ease Function", "Toggle between built-in and custom ease function")); yVal += lineHeight;
+		#endregion
 
+		yVal += 5f;
+        EditorGUI.DrawRect(new Rect(position.x, position.y + yVal, position.width, 1), new Color (0.5f, 0.5f, 0.5f, 1)); yVal += 1;
+		yVal += 5f;
 
-		EditorGUI.EndProperty();
+		#region EFFECT TYPE
+		EditorGUI.indentLevel = 0;
+		EditorGUI.LabelField(new Rect(position.x, position.y + yVal, position.width, lineHeight), new GUIContent("Effect")); yVal += lineHeight;
+		EditorGUI.indentLevel = 2;
+
+		EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("effectType"), 
+			new GUIContent("Effect Type", "Type of CinemaestreEffect to play")); yVal += lineHeight;
+		SerializedProperty effectProp = property.FindPropertyRelative("effectType");
+		if (effectProp.enumValueIndex == (int)CameraEffect.SLIDE) {
+			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("slideType"), 
+				new GUIContent("Slide Type", "Defines how the Slide should interpret the position data")); yVal += lineHeight;
+
+			SerializedProperty slideProp = property.FindPropertyRelative("slideType");
+			if (slideProp.enumValueIndex == (int)SlideType.WORLD_POS) {
+				EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("slideWorldPos"), 
+					new GUIContent("World Position", "Slides the camera to a position in world space")); yVal += lineHeight;
+			} else if (slideProp.enumValueIndex == (int)SlideType.LOCAL_OFFSET) {
+				EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("slideLocalOffset"), 
+					new GUIContent("Local Offset", "Slides the camera to a position in world space")); yVal += lineHeight;
+			} else if (slideProp.enumValueIndex == (int)SlideType.DIR_AND_MAG) {
+				EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("slideMoveDir"), 
+					new GUIContent("Direction", "Slides the camera in this direction")); yVal += lineHeight;
+				EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("slideMoveDistance"), 
+					new GUIContent("Distance", "Slides the camera this distance")); yVal += lineHeight;
+			}
+		} else if (effectProp.enumValueIndex == (int)CameraEffect.PAN) {
+			SerializedProperty panProp = property.FindPropertyRelative("panCustomDirection");
+			if (!panProp.boolValue) {
+				EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("panDirection"), 
+					new GUIContent("Pan Direction", "The axis on which the camera will pan")); yVal += lineHeight;
+			} else {
+				EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("panAxisOfRotation"), 
+					new GUIContent("Axis of Rotation", "Defines the axis on which the camera will rotate")); yVal += lineHeight;
+			}
+
+			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("panCustomDirection"), 
+				new GUIContent("Custom Axis", "Toggle between a base direction and a custom axis")); yVal += lineHeight;
+			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("panAngle"), 
+				new GUIContent("Angle Offset", "The angle, in degrees, to rotate. Can be negative.")); yVal += lineHeight;
+			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("panGlobalSpace"), 
+				new GUIContent("Use Global Space", "")); yVal += lineHeight;
+		} else if (effectProp.enumValueIndex == (int)CameraEffect.ZOOM) {
+			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("zoomTargetFOV"), 
+				new GUIContent("Target FOV", "The final FOV of the camera after completing the zoom")); yVal += lineHeight;
+		} else if (effectProp.enumValueIndex == (int)CameraEffect.FADE) {
+			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("fadeColor"), 
+				new GUIContent("Fade Color", "Color of the fade effect")); yVal += lineHeight;
+			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("fadeOut"), 
+				new GUIContent("Fade Out", "Toggle between fading in and fading out")); yVal += lineHeight;
+		} else if (effectProp.enumValueIndex == (int)CameraEffect.DELAY) {
+		}
+		#endregion
 
 		EditorGUI.indentLevel = 0;
+		EditorGUI.EndProperty();
+
+		extraHeight = yVal;
 	}
 
 	public override float GetPropertyHeight (SerializedProperty prop, GUIContent label) {
-	   return base.GetPropertyHeight(prop, label) + 200f;
+	   return base.GetPropertyHeight(prop, label) + extraHeight - lineHeight;
 	}
 }

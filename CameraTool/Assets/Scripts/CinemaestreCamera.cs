@@ -7,9 +7,11 @@ using UnityEngine.UI;
 // [x] Zoom (in and out with an adjustable time rate)
 // [x] Fade Screen (using hdrp)
 // [x] Lerp FOV  (in and out with an adjustable time rate)
-// [x] Inspector
-// [x] Tooltips
+// [ ] Inspector
+// [ ] Tooltips
 // [x] Event trigger
+// [x] Events
+// [ ] Delay
 // [ ] Create a struct for each effect that is subclassed, and can be added in an array to layer them
 // [ ] Create a simple C# API
 // [ ] Comment code, debug warnings and such
@@ -31,18 +33,35 @@ namespace Cinemaestre {
 	#region CINEMAESTRE EFFECTS
 	[System.Serializable]
 	public class CinemaestreEffect {
-		public CameraEffect effect;
+		public CameraEffect effectType;
 
 		public float duration = 1f;
 
 		public bool loop = false;
-		public int iterations = 1; // this should not show up if loop is checked, and loopForever is not checked
-		public bool loopForever = true; // should only show up if loop is checked
-		public bool pingpong = false; // this should only show up if loop is checked
+		public int iterations = 1;
+		public bool loopForever = true; 
+		public bool pingpong = false; 
 
 		public LeanTweenType easeType;
 		public bool customEase = false;
-		public AnimationCurve easeAnimationCurve; // only show this if customEase is true
+		public AnimationCurve easeAnimationCurve; 
+
+		public SlideType slideType;
+		public Vector3 slideWorldPos; 
+		public Vector3 slideLocalOffset;
+		public Vector3 slideMoveDir; 
+		public float slideMoveDistance;
+
+		public PanDirection panDirection;
+		public bool panCustomDirection = false;
+		public Vector3 panAxisOfRotation; // only show this if custom direction is true
+		public bool panGlobalSpace;
+		public float panAngle;
+
+		public float zoomTargetFOV;
+
+		public Color fadeColor;
+		public bool fadeOut = true;
 	}
 	#endregion
 
