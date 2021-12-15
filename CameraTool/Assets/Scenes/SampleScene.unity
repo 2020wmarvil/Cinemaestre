@@ -11515,7 +11515,7 @@ GameObject:
   - component: {fileID: 1013276051}
   - component: {fileID: 1013276050}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: FadePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15452,6 +15452,49 @@ Transform:
   - {fileID: 899593389}
   m_Father: {fileID: 1086288951}
   m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1392225278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1392225280}
+  - component: {fileID: 1392225279}
+  m_Layer: 0
+  m_Name: Demo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1392225279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392225278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49b560b3f494de742b3e1b61c6656374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1392225280
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392225278}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.7298474, y: 0.0041741873, z: -7.5200624}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1404506854
 PrefabInstance:
@@ -26165,35 +26208,207 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ca82655ea745343869d1dffdc20635, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraEffect: 1
+  Activate:
+    m_PersistentCalls:
+      m_Calls: []
+  effect:
+    effect: 0
+    duration: 1
+    autoplay: 0
+    loop: 0
+    iterations: 1
+    loopForever: 1
+    pingpong: 0
+    easeType: 0
+    customEase: 0
+    easeAnimationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  effects:
+  - effect: 2
+    duration: 0
+    autoplay: 0
+    loop: 0
+    iterations: 0
+    loopForever: 0
+    pingpong: 0
+    easeType: 0
+    customEase: 0
+    easeAnimationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+  - effect: 4
+    duration: 0
+    autoplay: 0
+    loop: 0
+    iterations: 0
+    loopForever: 0
+    pingpong: 0
+    easeType: 0
+    customEase: 0
+    easeAnimationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+  - effect: 2
+    duration: 0
+    autoplay: 0
+    loop: 0
+    iterations: 0
+    loopForever: 0
+    pingpong: 0
+    easeType: 0
+    customEase: 0
+    easeAnimationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+  - effect: 2
+    duration: 0
+    autoplay: 0
+    loop: 0
+    iterations: 0
+    loopForever: 0
+    pingpong: 0
+    easeType: 0
+    customEase: 0
+    easeAnimationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+  - effect: 1
+    duration: 0
+    autoplay: 0
+    loop: 0
+    iterations: 0
+    loopForever: 0
+    pingpong: 0
+    easeType: 0
+    customEase: 0
+    easeAnimationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+  - effect: 4
+    duration: 0
+    autoplay: 0
+    loop: 0
+    iterations: 0
+    loopForever: 0
+    pingpong: 0
+    easeType: 0
+    customEase: 0
+    easeAnimationCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+  cameraEffect: 3
   duration: 1
   autoplay: 0
+  loop: 0
+  iterations: 4
+  loopForever: 0
+  pingpong: 1
   easeType: 1
   customEase: 0
   easeAnimationCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  loop: 0
-  loops: 0
-  loopForever: 0
-  pingpong: 0
-  slideType: 0
+  slideType: 2
   slideWorldPos: {x: 0, y: 0, z: 0}
   slideLocalOffset: {x: 0, y: 0, z: 0}
   slideMoveDir: {x: 0, y: 0, z: 0}
   slideMoveDistance: 0
   panDirection: 0
   panCustomDirection: 0
-  panAxisOfRotation: {x: 0, y: 0, z: 0}
+  panAxisOfRotation: {x: 0, y: 1, z: 0}
   panGlobalSpace: 0
   panAngle: 30
-  zoomTargetFOV: 0
-  fadePanel: {fileID: 1013276050}
-  fadeColor: {r: 1, g: 0, b: 0, a: 1}
-  fadeOut: 0
+  zoomTargetFOV: 120
+  fadeColor: {r: 0, g: 0, b: 0, a: 1}
+  fadeOut: 1
+  OnStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1392225279}
+        m_TargetAssemblyTypeName: Demo, Assembly-CSharp
+        m_MethodName: OnStart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnLoop:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1392225279}
+        m_TargetAssemblyTypeName: Demo, Assembly-CSharp
+        m_MethodName: OnLoop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1392225279}
+        m_TargetAssemblyTypeName: Demo, Assembly-CSharp
+        m_MethodName: OnComplete
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1981861126
 GameObject:
   m_ObjectHideFlags: 3

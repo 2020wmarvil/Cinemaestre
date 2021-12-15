@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 // TODO: 
@@ -7,9 +7,9 @@ using UnityEngine.UI;
 // [x] Zoom (in and out with an adjustable time rate)
 // [x] Fade Screen (using hdrp)
 // [x] Lerp FOV  (in and out with an adjustable time rate)
-// [ ] Inspector
-// [ ] Tooltips
-// [ ] Event trigger
+// [x] Inspector
+// [x] Tooltips
+// [x] Event trigger
 // [ ] Create a struct for each effect that is subclassed, and can be added in an array to layer them
 // [ ] Create a simple C# API
 // [ ] Comment code, debug warnings and such
@@ -20,30 +20,57 @@ using UnityEngine.UI;
 // [ ] Scene handles for rotations
 // [ ] Fade render pass
 // [ ] Timeline for animating effects
+// [ ] Pan around a target object
 
 namespace Cinemaestre {
-	public enum CameraEffect { SLIDE, PAN, ZOOM, FADE }
+	public enum CameraEffect { SLIDE, PAN, ZOOM, FADE, DELAY }
 
 	public enum SlideType { WORLD_POS, LOCAL_OFFSET, DIR_AND_MAG }
 	public enum PanDirection { HORIZONTAL, VERTICAL }
 
+	#region CINEMAESTRE EFFECTS
+	[System.Serializable]
+	public class CinemaestreEffect {
+		public CameraEffect effect;
+
+		public float duration = 1f;
+
+		public bool loop = false;
+		public int iterations = 1; // this should not show up if loop is checked, and loopForever is not checked
+		public bool loopForever = true; // should only show up if loop is checked
+		public bool pingpong = false; // this should only show up if loop is checked
+
+		public LeanTweenType easeType;
+		public bool customEase = false;
+		public AnimationCurve easeAnimationCurve; // only show this if customEase is true
+	}
+	#endregion
+
 	public class CinemaestreCamera : MonoBehaviour {
+		[HideInInspector] public UnityEvent Activate; // TODO: better name pls
+
+		public CinemaestreEffect effect;
+
+
+		public CinemaestreEffect[] effects;
+
+		#region FIELDS
 		[HideInInspector] public CameraEffect cameraEffect;
 
 		[Header("General")]
-		public float duration;
-		public bool autoplay; 
+		public float duration = 1f;
+		public bool autoplay = false; 
+
+		[Header("Looping")]
+		public bool loop = false;
+		public int iterations = 1; // this should not show up if loop is checked, and loopForever is not checked
+		public bool loopForever = true; // should only show up if loop is checked
+		public bool pingpong = false; // this should only show up if loop is checked
 
 		[Header("Ease Function")]
 		public LeanTweenType easeType;
-		public bool customEase;
+		public bool customEase = false;
 		public AnimationCurve easeAnimationCurve; // only show this if customEase is true
-
-		[Header("Looping")]
-		public bool loop;
-		public int loops; // this should not show up if loop is checked, and loopForever is not checked
-		public bool loopForever; // should only show up if loop is checked
-		public bool pingpong; // this should only show up if loop is checked
 
 		[Header("Slide")]
 		public SlideType slideType;
@@ -54,7 +81,7 @@ namespace Cinemaestre {
 
 		[Header("Pan")]
 		public PanDirection panDirection;
-		public bool panCustomDirection;
+		public bool panCustomDirection = false;
 		public Vector3 panAxisOfRotation; // only show this if custom direction is true
 		public bool panGlobalSpace;
 		public float panAngle;
@@ -63,20 +90,36 @@ namespace Cinemaestre {
 		public float zoomTargetFOV;
 
 		[Header("Fade")]
-		public Image fadePanel;
 		public Color fadeColor;
 		public bool fadeOut = true;
+		Image fadePanel;
 
+		#endregion
+
+		#region UNITY FUNCTIONS
 		void Start() {
-			if (autoplay) {
-				PlayCameraEffects();
-			}
+			if (autoplay) PlayCameraEffects();
 		}
+
+		void OnEnable() {
+			Activate.AddListener(PlayCameraEffects);
+		}
+
+		void OnDisable() {
+			Activate.RemoveListener(PlayCameraEffects);
+		}
+		#endregion
+
+		public UnityEvent OnStart;
+		public UnityEvent OnLoop;
+		public UnityEvent OnComplete;
 
 		/// <summary>
 		/// This will begin playing the CameraEffects
 		/// </summary>
 		public void PlayCameraEffects() {
+			OnStart.Invoke();
+
 			LTDescr lt;
 
 			if (cameraEffect == CameraEffect.SLIDE) {
@@ -91,7 +134,11 @@ namespace Cinemaestre {
 
 			if (loop) {
 				if (!loopForever) {
-					lt.setLoopCount(loops);
+					if (iterations == 0) { // dont permit 0 iterations because that will be interpreted as infinite
+						lt.setLoopCount(1);
+					} else {
+						lt.setLoopCount(iterations);
+					}
 				}
 
 				if (pingpong) {
@@ -106,16 +153,20 @@ namespace Cinemaestre {
 			} else {
 				lt.setEase(easeType);
 			}
-		}
 
-		void Update() {
-			if (Keyboard.current.spaceKey.wasPressedThisFrame) {
-				PlayCameraEffects();
-			}
+			lt.setOnComplete(() => {
+				if (lt.loopCount == 0) {
+					OnComplete.Invoke();
+				} else {
+					OnLoop.Invoke();
+				}
+			});
+
+			lt.setOnCompleteOnRepeat(true);
 		}
 
 		#region TWEEN FUNCTIONS
-		LTDescr GetSlideLT() { // TODO: offer splining as well
+		LTDescr GetSlideLT() {
 			Vector3 initialPos = transform.position;
 
 			if (slideType == SlideType.WORLD_POS) {
@@ -156,7 +207,9 @@ namespace Cinemaestre {
 				});
 		}
 
-		LTDescr GetFadeLT() { // TODO: make this into an HDRP render pass
+		LTDescr GetFadeLT() {
+			fadePanel = GameObject.Find("FadePanel").GetComponent<Image>();
+
 			if (fadeOut) fadeColor.a = 0f;
 			else fadeColor.a = 1f;
 
