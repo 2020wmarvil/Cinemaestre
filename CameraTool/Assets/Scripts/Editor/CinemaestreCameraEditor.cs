@@ -14,7 +14,10 @@ public class CinemaestreCameraEditor : Editor {
 
         cam.cameraEffect = (CameraEffect)EditorGUILayout.EnumPopup("Camera Effect", cam.cameraEffect);
         switch(cam.cameraEffect) {
-            case CameraEffect.PAN: {
+            case CameraEffect.SLIDE: {
+                    EditorGUILayout.LabelField("Slide");
+                    break;
+            } case CameraEffect.PAN: {
                 EditorGUILayout.LabelField("Pan");
                 break;
             } case CameraEffect.ZOOM: {
@@ -23,10 +26,7 @@ public class CinemaestreCameraEditor : Editor {
             } case CameraEffect.FADE: {
                 EditorGUILayout.LabelField("Fade");
                 break;
-            } case CameraEffect.FOV: {
-                EditorGUILayout.LabelField("FOV");
-                break;
-            }
+            } 
         }
     }
 }
