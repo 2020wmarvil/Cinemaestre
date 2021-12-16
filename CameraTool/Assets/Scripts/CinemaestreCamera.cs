@@ -6,7 +6,7 @@ using UnityEngine.UI;
 // [x] Pan (in cardinal directions)
 // [x] Zoom (in and out with an adjustable time rate)
 // [x] Fade Screen (using hdrp)
-// [x] Lerp FOV  (in and out with an adjustable time rate)
+// [x] Lerp FOV (in and out with an adjustable time rate)
 // [ ] Delay
 // [ ] Inspector
 // [x] Tooltips
