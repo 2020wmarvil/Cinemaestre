@@ -63,7 +63,7 @@ public class ColorPointDrawer : PropertyDrawer {
 		EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("effectType"), 
 			new GUIContent("Effect Type", "Type of CinemaestreEffect to play")); yVal += lineHeight;
 		SerializedProperty effectProp = property.FindPropertyRelative("effectType");
-		if (effectProp.enumValueIndex == (int)CameraEffect.SLIDE) {
+		if (effectProp.enumValueIndex == (int)CinemaestreEffectType.SLIDE) {
 			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("slideType"), 
 				new GUIContent("Slide Type", "Defines how the Slide should interpret the position data")); yVal += lineHeight;
 
@@ -80,7 +80,7 @@ public class ColorPointDrawer : PropertyDrawer {
 				EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("slideMoveDistance"), 
 					new GUIContent("Distance", "Slides the camera this distance")); yVal += lineHeight;
 			}
-		} else if (effectProp.enumValueIndex == (int)CameraEffect.PAN) {
+		} else if (effectProp.enumValueIndex == (int)CinemaestreEffectType.PAN) {
 			SerializedProperty panProp = property.FindPropertyRelative("panCustomDirection");
 			if (!panProp.boolValue) {
 				EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("panDirection"), 
@@ -96,15 +96,15 @@ public class ColorPointDrawer : PropertyDrawer {
 				new GUIContent("Angle Offset", "The angle, in degrees, to rotate. Can be negative.")); yVal += lineHeight;
 			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("panGlobalSpace"), 
 				new GUIContent("Use Global Space", "")); yVal += lineHeight;
-		} else if (effectProp.enumValueIndex == (int)CameraEffect.ZOOM) {
+		} else if (effectProp.enumValueIndex == (int)CinemaestreEffectType.ZOOM) {
 			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("zoomTargetFOV"), 
 				new GUIContent("Target FOV", "The final FOV of the camera after completing the zoom")); yVal += lineHeight;
-		} else if (effectProp.enumValueIndex == (int)CameraEffect.FADE) {
+		} else if (effectProp.enumValueIndex == (int)CinemaestreEffectType.FADE) {
 			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("fadeColor"), 
 				new GUIContent("Fade Color", "Color of the fade effect")); yVal += lineHeight;
 			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("fadeOut"), 
 				new GUIContent("Fade Out", "Toggle between fading in and fading out")); yVal += lineHeight;
-		} else if (effectProp.enumValueIndex == (int)CameraEffect.DELAY) {
+		} else if (effectProp.enumValueIndex == (int)CinemaestreEffectType.DELAY) {
 		}
 		#endregion
 

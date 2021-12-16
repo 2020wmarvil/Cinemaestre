@@ -11,7 +11,7 @@ public class Demo : MonoBehaviour {
 
 	void Update() {
 		if (Keyboard.current.spaceKey.wasPressedThisFrame) {
-			//cam.PlayCameraEffects();
+			//cam.PlayEffectSequence();
 			cam.Activate.Invoke();
 		}
 	}
