@@ -3,7 +3,7 @@ using UnityEngine;
 using Cinemaestre;
 
 [CustomPropertyDrawer(typeof(CinemaestreEffect))]
-public class ColorPointDrawer : PropertyDrawer {
+public class CinemaestreEffectDrawer : PropertyDrawer {
 	float extraHeight = 0f;
 	float lineHeight = 20f;
 
@@ -19,23 +19,6 @@ public class ColorPointDrawer : PropertyDrawer {
 		EditorGUI.indentLevel = 2;
 		EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("duration"),
 			new GUIContent("Duration", "Duration of the camera effect")); yVal += lineHeight;
-		#endregion
-
-		#region LOOPING
-		EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("loop"),
-			new GUIContent("Loop", "Enable the camera effect to loop")); yVal += lineHeight;
-		SerializedProperty loopProp = property.FindPropertyRelative("loop");
-		if (loopProp.boolValue) {
-			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("loopForever"),
-				new GUIContent("Loop Forever", "Loop indefinitely")); yVal += lineHeight;
-			SerializedProperty loopForeverProp = property.FindPropertyRelative("loopForever");
-			if (!loopForeverProp.boolValue) {
-				EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("iterations"),
-					new GUIContent("Iterations", "The number of times to loop")); yVal += lineHeight;
-			}
-			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("pingpong"),
-				new GUIContent("Ping-Pong", "Loop will alterante between playing forwards and backwards")); yVal += lineHeight;
-		}
 		#endregion
 
 		#region EASING
@@ -108,14 +91,12 @@ public class ColorPointDrawer : PropertyDrawer {
 		}
 		#endregion
 
-		//yVal += 5f;
-        //EditorGUI.DrawRect(new Rect(position.x, position.y + yVal, position.width, 2), new Color (0.5f, 0.5f, 0.5f, 1)); yVal += 2;
-		//yVal += 5f;
-
 		EditorGUI.indentLevel = 0;
 		EditorGUI.EndProperty();
 
 		extraHeight = yVal;
+
+		Debug.Log(extraHeight);
 	}
 
 	public override float GetPropertyHeight (SerializedProperty prop, GUIContent label) {

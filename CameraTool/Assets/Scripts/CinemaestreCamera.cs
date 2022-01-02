@@ -27,7 +27,7 @@ using UnityEngine.UI;
 // Further development
 // [ ] Slide splining
 // [ ] Scene handles for rotations
-// [ ] Fade render pass
+// [ ] Fade render pass - https://www.youtube.com/watch?v=vBqSSXjQvCo
 // [ ] Pan around a target object
 // [ ] Replace leantween with custom ease functions: https://easings.net/
 
@@ -42,11 +42,6 @@ public class CinemaestreEffect {
 
 	public float duration = 1f;
 
-	public bool loop = false;
-	public int iterations = 1;
-	public bool loopForever = true; 
-	public bool pingpong = false; 
-
 	public LeanTweenType easeType;
 	public bool customEase = false;
 	public AnimationCurve easeAnimationCurve; 
@@ -59,7 +54,7 @@ public class CinemaestreEffect {
 
 	public PanDirection panDirection;
 	public bool panCustomDirection = false;
-	public Vector3 panAxisOfRotation; // only show this if custom direction is true
+	public Vector3 panAxisOfRotation; 
 	public bool panGlobalSpace;
 	public float panAngle;
 
@@ -73,67 +68,64 @@ public class CinemaestreEffect {
 #region CINEMAESTRE STACK
 [System.Serializable]
 public class CinemaestreStack {
+	public bool autoplay;
+
+	public bool loop = false;
+	public bool loopForever = true; 
+	public int iterations = 1;
+	public bool pingpong = false; 
+
+	public UnityEvent OnStart;
+	public UnityEvent OnLoop;
+	public UnityEvent OnComplete;
+
 	public CinemaestreEffect[] effects; // each stack knows how to update on its own
 }
 #endregion
 
 namespace Cinemaestre {
 	public class CinemaestreCamera : MonoBehaviour {
-		[HideInInspector] public UnityEvent Activate; // TODO: better name pls
-
 		public List<CinemaestreStack> stacks = new List<CinemaestreStack>();
 
-		#region FIELDS
-		[Header("General")]
-		public bool autoplay = false; 
-
-		//[Header("Looping")]
-		//public bool loop = false;
-		//public int iterations = 1; // this should not show up if loop is checked, and loopForever is not checked
-		//public bool loopForever = true; // should only show up if loop is checked
-		//public bool pingpong = false; // this should only show up if loop is checked
-
-		Image fadePanel;
-
-		public UnityEvent OnStart;
-		public UnityEvent OnLoop;
-		public UnityEvent OnComplete;
-		#endregion
+		Image fadePanel; // TODO: replace with render pass
 
 		#region UNITY FUNCTIONS
 		void Start() {
-			if (autoplay) PlayEffectSequence();
-		}
-
-		void OnEnable() {
-			Activate.AddListener(PlayEffectSequence);
-		}
-
-		void OnDisable() {
-			Activate.RemoveListener(PlayEffectSequence);
+			for (int i=0; i<stacks.Count; i++) {
+				if (stacks[i].autoplay) PlayEffectStack(i);
+			}
 		}
 		#endregion
 
 		#region API
+
 		/// <summary>
-		/// This will play the entire CinemaestreEffect sequence
+		/// Play the entire effect stack denoted by index
 		/// </summary>
-		public void PlayEffectSequence() {
-			for (int i=0; i<stacks[0].effects.Length; i++) {
-				PlayEffect(stacks[0].effects[i]); 
+		/// <param name="index"></param>
+		public Coroutine PlayEffectStack(int index) {
+			return StartCoroutine(PlayEffectStackImpl(index));
+		}
+
+		/// <summary>
+		/// This will play a given CinemaestreEffect. Returns a coroutine to control the process.
+		/// </summary>
+		/// <param name="effect"></param>
+		/// <returns></returns>
+		public Coroutine PlayEffect(CinemaestreEffect effect) {
+			return StartCoroutine(PlayEffectImpl(effect));
+		}
+		#endregion
+
+		#region IMPLEMENTATIONS
+		IEnumerator PlayEffectStackImpl(int index) {
+			for (int i=0; i<stacks[index].effects.Length; i++) {
+				yield return PlayEffectImpl(stacks[index].effects[i]);
+				// TODO: invoke stacks[i].effects[i].OnEffectCompleted
 			}
 		}
 
-		IEnumerator PlayEffectSequenceImpl() {
-			yield return null;
-		}
-
-		/// <summary>
-		/// This will play a given CinemaestreEffect
-		/// </summary>
-		public void PlayEffect(CinemaestreEffect effect) {
-			OnStart.Invoke();
-
+		IEnumerator PlayEffectImpl(CinemaestreEffect effect) {
 			LTDescr lt;
 
 			if (effect.effectType == CinemaestreEffectType.SLIDE) {
@@ -146,37 +138,16 @@ namespace Cinemaestre {
 				lt = GetFadeLT(effect);
 			} else { lt = null; } // this is not good haha
 
-			if (effect.loop) {
-				if (!effect.loopForever) {
-					if (effect.iterations == 0) { // dont permit 0 iterations because that will be interpreted as infinite
-						lt.setLoopCount(1);
-					} else {
-						lt.setLoopCount(effect.iterations);
-					}
-				}
-
-				if (effect.pingpong) {
-					lt.setLoopPingPong();
-				} else {
-					lt.setLoopClamp();
-				}
-			}
-
 			if (effect.customEase) { 
 				lt.setEase(effect.easeAnimationCurve);
 			} else {
 				lt.setEase(effect.easeType);
 			}
 
-			lt.setOnComplete(() => {
-				if (lt.loopCount == 0) {
-					OnComplete.Invoke();
-				} else {
-					OnLoop.Invoke();
-				}
-			});
+			bool finished = false;
+			lt.setOnComplete(() => { finished = true; });
 
-			lt.setOnCompleteOnRepeat(true);
+			while (!finished) yield return null;
 		}
 		#endregion
 

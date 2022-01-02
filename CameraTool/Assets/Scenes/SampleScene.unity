@@ -26208,56 +26208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ca82655ea745343869d1dffdc20635, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Activate:
-    m_PersistentCalls:
-      m_Calls: []
   stacks: []
-  autoplay: 0
-  OnStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1392225279}
-        m_TargetAssemblyTypeName: Demo, Assembly-CSharp
-        m_MethodName: OnStart
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnLoop:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1392225279}
-        m_TargetAssemblyTypeName: Demo, Assembly-CSharp
-        m_MethodName: OnLoop
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnComplete:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1392225279}
-        m_TargetAssemblyTypeName: Demo, Assembly-CSharp
-        m_MethodName: OnComplete
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &1981861126
 GameObject:
   m_ObjectHideFlags: 3
