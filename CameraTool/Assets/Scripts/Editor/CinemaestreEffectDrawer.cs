@@ -108,9 +108,9 @@ public class ColorPointDrawer : PropertyDrawer {
 		}
 		#endregion
 
-		yVal += 5f;
-        EditorGUI.DrawRect(new Rect(position.x, position.y + yVal, position.width, 2), new Color (0.5f, 0.5f, 0.5f, 1)); yVal += 2;
-		yVal += 5f;
+		//yVal += 5f;
+        //EditorGUI.DrawRect(new Rect(position.x, position.y + yVal, position.width, 2), new Color (0.5f, 0.5f, 0.5f, 1)); yVal += 2;
+		//yVal += 5f;
 
 		EditorGUI.indentLevel = 0;
 		EditorGUI.EndProperty();

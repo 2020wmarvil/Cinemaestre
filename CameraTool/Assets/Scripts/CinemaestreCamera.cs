@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -9,79 +10,78 @@ using UnityEngine.UI;
 // [x] Fade Screen (using hdrp)
 // [x] Lerp FOV (in and out with an adjustable time rate)
 // [ ] Delay
-// [ ] Inspector
+// [x] Stack Inspector
+// [ ] Effect Inspector
 // [x] Tooltips
 // [x] Event trigger
 // [x] Events
-// [ ] Create a struct to handle array of effects
-// [ ] Layered + Sequential effect types
-// [ ] Create a simple C# API
-// [ ] Comment code, debug warnings and such
-// [ ] Demo + Documentation
-
-// [ ] Stacks
+// [x] Create a struct to handle array of effects
+// [ ] Effect Stack implementations
 // play, pause, stop
 // for all and by index
 // loop on a stack basis
-
+// [ ] Create a simple C# API
+// [ ] Comments, debug warnings and such
+// [ ] Demos + Documentation
 
 // Further development
 // [ ] Slide splining
 // [ ] Scene handles for rotations
 // [ ] Fade render pass
 // [ ] Pan around a target object
+// [ ] Replace leantween with custom ease functions: https://easings.net/
+
+public enum CinemaestreEffectType { SLIDE, PAN, ZOOM, FADE, DELAY }
+public enum SlideType { WORLD_POS, LOCAL_OFFSET, DIR_AND_MAG }
+public enum PanDirection { HORIZONTAL, VERTICAL }
+
+#region CINEMAESTRE EFFECTS
+[System.Serializable]
+public class CinemaestreEffect {
+	public CinemaestreEffectType effectType;
+
+	public float duration = 1f;
+
+	public bool loop = false;
+	public int iterations = 1;
+	public bool loopForever = true; 
+	public bool pingpong = false; 
+
+	public LeanTweenType easeType;
+	public bool customEase = false;
+	public AnimationCurve easeAnimationCurve; 
+
+	public SlideType slideType;
+	public Vector3 slideWorldPos; 
+	public Vector3 slideLocalOffset;
+	public Vector3 slideMoveDir; 
+	public float slideMoveDistance;
+
+	public PanDirection panDirection;
+	public bool panCustomDirection = false;
+	public Vector3 panAxisOfRotation; // only show this if custom direction is true
+	public bool panGlobalSpace;
+	public float panAngle;
+
+	public float zoomTargetFOV;
+
+	public Color fadeColor;
+	public bool fadeOut = true;
+}
+#endregion
+
+#region CINEMAESTRE STACK
+[System.Serializable]
+public class CinemaestreStack {
+	public CinemaestreEffect[] effects; // each stack knows how to update on its own
+}
+#endregion
 
 namespace Cinemaestre {
-	public enum CinemaestreEffectType { SLIDE, PAN, ZOOM, FADE, DELAY }
-	public enum SlideType { WORLD_POS, LOCAL_OFFSET, DIR_AND_MAG }
-	public enum PanDirection { HORIZONTAL, VERTICAL }
-
-	#region CINEMAESTRE EFFECTS
-	[System.Serializable]
-	public class CinemaestreEffect {
-		public CinemaestreEffectType effectType;
-
-		public float duration = 1f;
-
-		public bool loop = false;
-		public int iterations = 1;
-		public bool loopForever = true; 
-		public bool pingpong = false; 
-
-		public LeanTweenType easeType;
-		public bool customEase = false;
-		public AnimationCurve easeAnimationCurve; 
-
-		public SlideType slideType;
-		public Vector3 slideWorldPos; 
-		public Vector3 slideLocalOffset;
-		public Vector3 slideMoveDir; 
-		public float slideMoveDistance;
-
-		public PanDirection panDirection;
-		public bool panCustomDirection = false;
-		public Vector3 panAxisOfRotation; // only show this if custom direction is true
-		public bool panGlobalSpace;
-		public float panAngle;
-
-		public float zoomTargetFOV;
-
-		public Color fadeColor;
-		public bool fadeOut = true;
-	}
-	#endregion
-
-	[System.Serializable]
-	public class CinemaestreStack {
-		public CinemaestreEffect[] effects;
-
-		// each stack knows how to update on its own
-	}
-
 	public class CinemaestreCamera : MonoBehaviour {
 		[HideInInspector] public UnityEvent Activate; // TODO: better name pls
 
-		public CinemaestreStack[] stacks;
+		public List<CinemaestreStack> stacks = new List<CinemaestreStack>();
 
 		#region FIELDS
 		[Header("General")]
@@ -98,7 +98,6 @@ namespace Cinemaestre {
 		public UnityEvent OnStart;
 		public UnityEvent OnLoop;
 		public UnityEvent OnComplete;
-
 		#endregion
 
 		#region UNITY FUNCTIONS
