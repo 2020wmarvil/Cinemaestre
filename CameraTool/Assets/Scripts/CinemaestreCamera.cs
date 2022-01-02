@@ -9,7 +9,7 @@ using UnityEngine.UI;
 // [x] Zoom (in and out with an adjustable time rate)
 // [x] Fade Screen (using hdrp)
 // [x] Lerp FOV (in and out with an adjustable time rate)
-// [ ] Delay
+// [x] Delay
 // [x] Stack Inspector
 // [x] Effect Inspector
 // [x] Tooltips
@@ -23,6 +23,7 @@ using UnityEngine.UI;
 //	  loop on a stack basis
 //	  add and remove effects from a stack
 //	  events for onstart, oncomplete, onloop, oneffectcomplete
+// [ ] Place OnEffectComplete in the inspector?
 // [ ] Effect Inspector Resizing bug
 // [ ] Comments, debug warnings and such
 // [ ] Demos + Documentation
@@ -62,9 +63,12 @@ public class CinemaestreEffect {
 	public float panAngle;
 
 	public float zoomTargetFOV;
+	public float zoomInitialFOV;
 
 	public Color fadeColor;
 	public bool fadeOut = true;
+
+	public UnityEvent OnEffectComplete;
 }
 #endregion
 
@@ -76,6 +80,7 @@ public class CinemaestreStack {
 	public bool loop = false;
 	public bool loopForever = true; 
 	public int iterations = 1;
+	public int timesIterated = 0;
 	public bool pingpong = false; 
 
 	public UnityEvent OnStart;
@@ -101,7 +106,6 @@ namespace Cinemaestre {
 		#endregion
 
 		#region API
-
 		/// <summary>
 		/// Play the entire effect stack denoted by index
 		/// </summary>
@@ -122,25 +126,58 @@ namespace Cinemaestre {
 
 		#region IMPLEMENTATIONS
 		IEnumerator PlayEffectStackImpl(int index) {
-			for (int i=0; i<stacks[index].effects.Length; i++) {
-				yield return PlayEffectImpl(stacks[index].effects[i]);
-				// TODO: invoke stacks[i].effects[i].OnEffectCompleted
+			stacks[index].timesIterated = 0;
+			stacks[index].OnStart.Invoke();
+
+			bool loopAgain = true;
+			bool forward = true;
+			while (loopAgain) {
+				loopAgain = false;
+
+				if (forward) {
+					for (int i = 0; i < stacks[index].effects.Length; i++) {
+						yield return PlayEffectImpl(stacks[index].effects[i]);
+						stacks[index].effects[i].OnEffectComplete.Invoke();
+					}
+				} else { 
+					for (int i = stacks[index].effects.Length-1; i>=0; i--) { 
+						yield return PlayEffectImpl(stacks[index].effects[i], forward: false); 
+						stacks[index].effects[i].OnEffectComplete.Invoke();
+					}
+				}
+
+				stacks[index].timesIterated++;
+
+				if (stacks[index].loop) {
+					if (stacks[index].loopForever) {
+						loopAgain = true;
+					} else if (stacks[index].timesIterated < stacks[index].iterations) {
+						loopAgain = true;
+					}
+
+					if (stacks[index].pingpong && stacks[index].timesIterated % 2 == 1) forward = false;
+					else forward = true;
+				}
+
+				if (loopAgain) stacks[index].OnLoop.Invoke();
 			}
+
+			stacks[index].OnComplete.Invoke();
 		}
 
-		IEnumerator PlayEffectImpl(CinemaestreEffect effect) {
+		IEnumerator PlayEffectImpl(CinemaestreEffect effect, bool forward=true) {
 			LTDescr lt;
 
 			if (effect.effectType == CinemaestreEffectType.SLIDE) {
-				lt = GetSlideLT(effect);
+				lt = GetSlideLT(effect, forward);
 			} else if (effect.effectType == CinemaestreEffectType.PAN) {
-				lt = GetPanLT(effect);
+				lt = GetPanLT(effect, forward);
 			} else if (effect.effectType == CinemaestreEffectType.ZOOM) {
-				lt = GetZoomLT(effect);
+				lt = GetZoomLT(effect, forward);
 			} else if (effect.effectType == CinemaestreEffectType.FADE) {
-				lt = GetFadeLT(effect);
+				lt = GetFadeLT(effect, forward);
 			} else if (effect.effectType == CinemaestreEffectType.DELAY) {
-				lt = GetDelayLT(effect);
+				lt = GetDelayLT(effect, forward);
 			} else { lt = null; } // this is not good haha
 
 			if (effect.customEase) { 
@@ -157,7 +194,7 @@ namespace Cinemaestre {
 		#endregion
 
 		#region TWEEN FUNCTIONS
-		LTDescr GetSlideLT(CinemaestreEffect effect) {
+		LTDescr GetSlideLT(CinemaestreEffect effect, bool forward) {
 			Vector3 initialPos = transform.position;
 
 			if (effect.slideType == SlideType.WORLD_POS) {
@@ -166,42 +203,50 @@ namespace Cinemaestre {
 			} else if (effect.slideType == SlideType.LOCAL_OFFSET) {
 				effect.slideMoveDir = effect.slideLocalOffset.normalized;
 				effect.slideMoveDistance = effect.slideLocalOffset.magnitude;
-			} 
+			}
+
+			Vector3 moveDir = forward ? effect.slideMoveDir : -effect.slideMoveDir;
 
 			return LeanTween.value(0f, 1f, effect.duration)
 				.setOnUpdate((float value) => {
-					transform.position = initialPos + effect.slideMoveDir * (effect.slideMoveDistance * value);
+					transform.position = initialPos + moveDir * (effect.slideMoveDistance * value);
 				});
 		}
 
-		LTDescr GetPanLT(CinemaestreEffect effect) {
-			Vector3 forward = effect.panGlobalSpace ? effect.panAxisOfRotation : transform.rotation * effect.panAxisOfRotation; 
+		LTDescr GetPanLT(CinemaestreEffect effect, bool forward) {
+			Vector3 forwardVec = effect.panGlobalSpace ? effect.panAxisOfRotation : transform.rotation * effect.panAxisOfRotation; 
 
 			if (!effect.panCustomDirection) {
 				if (effect.panDirection == PanDirection.HORIZONTAL) {
-					forward = effect.panGlobalSpace ? Vector3.up : transform.up;
+					forwardVec = effect.panGlobalSpace ? Vector3.up : transform.up;
 				} else if (effect.panDirection == PanDirection.VERTICAL) {
-					forward = effect.panGlobalSpace ? Vector3.right : transform.right;
+					forwardVec = effect.panGlobalSpace ? Vector3.right : transform.right;
 				}
 			}
 
-			return LeanTween.rotateAround(gameObject, forward, effect.panAngle, effect.duration);
+			float panAngle = forward ? effect.panAngle : -effect.panAngle;
+			return LeanTween.rotateAround(gameObject, forwardVec, panAngle, effect.duration);
 		}
 
-		LTDescr GetZoomLT(CinemaestreEffect effect) { 
+		LTDescr GetZoomLT(CinemaestreEffect effect, bool forward) { 
 			Camera cam = GetComponent<Camera>();
+			if (forward) effect.zoomInitialFOV = cam.fieldOfView;
 			float initialFOV = cam.fieldOfView;
+			float targetFOV = forward ? effect.zoomTargetFOV : effect.zoomInitialFOV;
 
+			// TODO: double check this works for loops
 			return LeanTween.value(0f, 1f, effect.duration)
 				.setOnUpdate((float value) => {
 					cam.fieldOfView = initialFOV + (effect.zoomTargetFOV - initialFOV) * value;
 				});
 		}
 
-		LTDescr GetFadeLT(CinemaestreEffect effect) {
+		LTDescr GetFadeLT(CinemaestreEffect effect, bool forward) {
 			fadePanel = GameObject.Find("FadePanel").GetComponent<Image>();
 
-			if (effect.fadeOut) effect.fadeColor.a = 0f;
+			bool fadeOut = forward ? effect.fadeOut : !effect.fadeOut;
+
+			if (fadeOut) effect.fadeColor.a = 0f;
 			else effect.fadeColor.a = 1f;
 
 			fadePanel.color = effect.fadeColor;
@@ -209,12 +254,12 @@ namespace Cinemaestre {
 			return LeanTween.value(0f, 1f, effect.duration)
 				.setOnUpdate((float value) => {
 					Color c = fadePanel.color;
-					c.a = effect.fadeOut ? value : 1f - value;
+					c.a = fadeOut ? value : 1f - value;
 					fadePanel.color = c;
 				});
 		}
 
-		LTDescr GetDelayLT(CinemaestreEffect effect) {
+		LTDescr GetDelayLT(CinemaestreEffect effect, bool forward) {
 			return LeanTween.value(0f, 1f, effect.duration);
 		}
 		#endregion
