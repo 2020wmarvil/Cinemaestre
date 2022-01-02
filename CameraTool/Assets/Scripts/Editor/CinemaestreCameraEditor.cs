@@ -10,7 +10,7 @@ public class CinemaestreCameraEditor : Editor {
     SerializedProperty stackList;
 
     List<bool> showStackList = new List<bool>();
-    bool showInfo;
+    List<bool> showStackEventList = new List<bool>();
  
     void OnEnable(){
         cam = (CinemaestreCamera)target;
@@ -18,8 +18,10 @@ public class CinemaestreCameraEditor : Editor {
         stackList = GetTarget.FindProperty("stacks");
 
         showStackList = new List<bool>();
+        showStackEventList = new List<bool>();
         for (int i=0; i<stackList.arraySize; i++) {
             showStackList.Add(false);
+            showStackEventList.Add(false);
 		}
     }
 
@@ -44,6 +46,7 @@ public class CinemaestreCameraEditor : Editor {
         if (GUILayout.Button("Add Stack")) {
             cam.stacks.Add(new CinemaestreStack());
             showStackList.Add(false);
+            showStackEventList.Add(false);
         }
         
         for(int i = 0; i < stackList.arraySize; i++) {
@@ -69,7 +72,9 @@ public class CinemaestreCameraEditor : Editor {
                 }
         
                 for(int a = 0; a < effectList.arraySize; a++){
+                    //Repaint();
                     EditorGUILayout.PropertyField(effectList.GetArrayElementAtIndex(a));
+                    //Repaint();
                     if(GUILayout.Button("Remove Effect", GUILayout.MaxWidth(100),GUILayout.MaxHeight(15))){
                         effectList.DeleteArrayElementAtIndex(a);
                     } Line(Color.gray, 2);
@@ -83,12 +88,12 @@ public class CinemaestreCameraEditor : Editor {
 				#region STACK EVENTS
 				int indent = EditorGUI.indentLevel;
                 EditorGUI.indentLevel = indent + 1;
-                showInfo = EditorGUILayout.Foldout(showInfo , "Events");
-                if (showInfo) {
+                showStackEventList[i] = EditorGUILayout.Foldout(showStackEventList[i] , "Events");
+                if (showStackEventList[i]) {
                     serializedObject.Update();
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("OnStart"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("OnLoop"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("OnComplete"));
+                    EditorGUILayout.PropertyField(stackRef.FindPropertyRelative("OnStart"));
+                    EditorGUILayout.PropertyField(stackRef.FindPropertyRelative("OnLoop"));
+                    EditorGUILayout.PropertyField(stackRef.FindPropertyRelative("OnComplete"));
                     serializedObject.ApplyModifiedProperties();
                 }
                 EditorGUI.indentLevel = indent;
@@ -103,5 +108,15 @@ public class CinemaestreCameraEditor : Editor {
         Rect rect = EditorGUILayout.GetControlRect(false, i_height);
         rect.height = i_height;
         EditorGUI.DrawRect(rect, color);
+    }
+
+    public static void RepaintInspector(System.Type t) {
+        Editor[] ed = (Editor[])Resources.FindObjectsOfTypeAll<Editor>();
+        for (int i = 0; i < ed.Length; i++) {
+            if (ed[i].GetType() == t) {
+                ed[i].Repaint();
+                return;
+            }
+        }
     }
 }

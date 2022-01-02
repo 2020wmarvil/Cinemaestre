@@ -26209,77 +26209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stacks:
-  - autoplay: 1
-    loop: 0
-    loopForever: 0
-    iterations: 3
-    timesIterated: 0
-    pingpong: 0
-    OnStart:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLoop:
-      m_PersistentCalls:
-        m_Calls: []
-    OnComplete:
-      m_PersistentCalls:
-        m_Calls: []
-    effects:
-    - effectType: 0
-      duration: 1
-      easeType: 0
-      customEase: 0
-      easeAnimationCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-      slideType: 2
-      slideWorldPos: {x: 0, y: 0, z: 0}
-      slideLocalOffset: {x: 0, y: 0, z: 0}
-      slideMoveDir: {x: 1, y: 0, z: 0}
-      slideMoveDistance: 1
-      panDirection: 0
-      panCustomDirection: 0
-      panAxisOfRotation: {x: 0, y: 0, z: 0}
-      panGlobalSpace: 0
-      panAngle: 0
-      zoomTargetFOV: 0
-      zoomInitialFOV: 0
-      fadeColor: {r: 0, g: 0, b: 0, a: 0}
-      fadeOut: 0
-      OnEffectComplete:
-        m_PersistentCalls:
-          m_Calls: []
-    - effectType: 0
-      duration: 1
-      easeType: 0
-      customEase: 0
-      easeAnimationCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-      slideType: 2
-      slideWorldPos: {x: 0, y: 0, z: 0}
-      slideLocalOffset: {x: 0, y: 0, z: 0}
-      slideMoveDir: {x: 0, y: 1, z: 0}
-      slideMoveDistance: 1
-      panDirection: 0
-      panCustomDirection: 0
-      panAxisOfRotation: {x: 0, y: 0, z: 0}
-      panGlobalSpace: 0
-      panAngle: 0
-      zoomTargetFOV: 0
-      zoomInitialFOV: 0
-      fadeColor: {r: 0, g: 0, b: 0, a: 0}
-      fadeOut: 0
-      OnEffectComplete:
-        m_PersistentCalls:
-          m_Calls: []
-  - autoplay: 1
+  - autoplay: 0
     loop: 0
     loopForever: 1
     iterations: 1
@@ -26295,8 +26225,35 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     effects:
+    - effectType: 0
+      duration: 0
+      easeType: 0
+      customEase: 0
+      easeAnimationCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+      slideType: 0
+      slideWorldPos: {x: 0, y: 0, z: 0}
+      slideLocalOffset: {x: 0, y: 0, z: 0}
+      slideMoveDir: {x: 0, y: 0, z: 0}
+      slideMoveDistance: 0
+      panDirection: 0
+      panCustomDirection: 0
+      panAxisOfRotation: {x: 0, y: 0, z: 0}
+      panGlobalSpace: 0
+      panAngle: 0
+      zoomTargetFOV: 0
+      zoomInitialFOV: 0
+      fadeColor: {r: 0, g: 0, b: 0, a: 0}
+      fadeOut: 0
+      OnEffectComplete:
+        m_PersistentCalls:
+          m_Calls: []
     - effectType: 1
-      duration: 2
+      duration: 0
       easeType: 0
       customEase: 0
       easeAnimationCurve:
@@ -26314,7 +26271,7 @@ MonoBehaviour:
       panCustomDirection: 0
       panAxisOfRotation: {x: 0, y: 0, z: 0}
       panGlobalSpace: 0
-      panAngle: 180
+      panAngle: 0
       zoomTargetFOV: 0
       zoomInitialFOV: 0
       fadeColor: {r: 0, g: 0, b: 0, a: 0}
@@ -26322,7 +26279,7 @@ MonoBehaviour:
       OnEffectComplete:
         m_PersistentCalls:
           m_Calls: []
-  - autoplay: 1
+  - autoplay: 0
     loop: 0
     loopForever: 1
     iterations: 1
@@ -26337,61 +26294,7 @@ MonoBehaviour:
     OnComplete:
       m_PersistentCalls:
         m_Calls: []
-    effects:
-    - effectType: 4
-      duration: 1
-      easeType: 0
-      customEase: 0
-      easeAnimationCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-      slideType: 0
-      slideWorldPos: {x: 0, y: 0, z: 0}
-      slideLocalOffset: {x: 0, y: 0, z: 0}
-      slideMoveDir: {x: 0, y: 0, z: 0}
-      slideMoveDistance: 0
-      panDirection: 0
-      panCustomDirection: 0
-      panAxisOfRotation: {x: 0, y: 0, z: 0}
-      panGlobalSpace: 0
-      panAngle: 0
-      zoomTargetFOV: 0
-      zoomInitialFOV: 0
-      fadeColor: {r: 0, g: 0, b: 0, a: 0}
-      fadeOut: 0
-      OnEffectComplete:
-        m_PersistentCalls:
-          m_Calls: []
-    - effectType: 3
-      duration: 1
-      easeType: 0
-      customEase: 0
-      easeAnimationCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-      slideType: 0
-      slideWorldPos: {x: 0, y: 0, z: 0}
-      slideLocalOffset: {x: 0, y: 0, z: 0}
-      slideMoveDir: {x: 0, y: 0, z: 0}
-      slideMoveDistance: 0
-      panDirection: 0
-      panCustomDirection: 0
-      panAxisOfRotation: {x: 0, y: 0, z: 0}
-      panGlobalSpace: 0
-      panAngle: 0
-      zoomTargetFOV: 0
-      zoomInitialFOV: 0
-      fadeColor: {r: 0, g: 0, b: 0, a: 0}
-      fadeOut: 1
-      OnEffectComplete:
-        m_PersistentCalls:
-          m_Calls: []
+    effects: []
 --- !u!1 &1981861126
 GameObject:
   m_ObjectHideFlags: 3

@@ -33,7 +33,7 @@ public class CinemaestreEffectDrawer : PropertyDrawer {
 		EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("customEase"),
 			new GUIContent("Custom Ease Function", "Toggle between built-in and custom ease function")); yVal += lineHeight;
 		#endregion
-
+		
 		yVal += 5f;
         EditorGUI.DrawRect(new Rect(position.x, position.y + yVal, position.width, 1), new Color (0.5f, 0.5f, 0.5f, 1)); yVal += 1;
 		yVal += 5f;
@@ -47,6 +47,7 @@ public class CinemaestreEffectDrawer : PropertyDrawer {
 			new GUIContent("Effect Type", "Type of CinemaestreEffect to play")); yVal += lineHeight;
 		SerializedProperty effectProp = property.FindPropertyRelative("effectType");
 		if (effectProp.enumValueIndex == (int)CinemaestreEffectType.SLIDE) {
+			Debug.Log("slide");
 			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("slideType"), 
 				new GUIContent("Slide Type", "Defines how the Slide should interpret the position data")); yVal += lineHeight;
 
@@ -96,7 +97,9 @@ public class CinemaestreEffectDrawer : PropertyDrawer {
 
 		extraHeight = yVal;
 
-		Debug.Log(extraHeight);
+		if (effectProp.enumValueIndex == (int)CinemaestreEffectType.SLIDE) {
+			Debug.Log(extraHeight);
+		}
 	}
 
 	public override float GetPropertyHeight (SerializedProperty prop, GUIContent label) {

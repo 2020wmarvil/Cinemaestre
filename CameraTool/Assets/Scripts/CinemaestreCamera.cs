@@ -16,7 +16,8 @@ using UnityEngine.UI;
 // [x] Event trigger
 // [x] Events
 // [x] Create a struct to handle array of effects
-// [ ] Stack looping
+// [x] Stack looping
+// [ ] Test stack events
 // [ ] Create a simple C# API
 //	  play, pause, stop for individual stacks, all stacks, and individual effects not associated with a stack
 //	  for all and by index
