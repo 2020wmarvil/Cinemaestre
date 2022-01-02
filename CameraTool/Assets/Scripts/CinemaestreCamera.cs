@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -18,11 +19,16 @@ using UnityEngine.UI;
 // [ ] Comment code, debug warnings and such
 // [ ] Demo + Documentation
 
+// [ ] Stacks
+// play, pause, stop
+// for all and by index
+// loop on a stack basis
+
+
 // Further development
 // [ ] Slide splining
 // [ ] Scene handles for rotations
 // [ ] Fade render pass
-// [ ] Timeline for animating effects
 // [ ] Pan around a target object
 
 namespace Cinemaestre {
@@ -65,11 +71,17 @@ namespace Cinemaestre {
 	}
 	#endregion
 
+	[System.Serializable]
+	public class CinemaestreStack {
+		public CinemaestreEffect[] effects;
+
+		// each stack knows how to update on its own
+	}
+
 	public class CinemaestreCamera : MonoBehaviour {
 		[HideInInspector] public UnityEvent Activate; // TODO: better name pls
 
-		public CinemaestreEffect effect;
-		public CinemaestreEffect[] effects;
+		public CinemaestreStack[] stacks;
 
 		#region FIELDS
 		[Header("General")]
@@ -108,7 +120,13 @@ namespace Cinemaestre {
 		/// This will play the entire CinemaestreEffect sequence
 		/// </summary>
 		public void PlayEffectSequence() {
-			PlayEffect(effect); // change to loop over the array and handle them as necessary (layered vs sequential)
+			for (int i=0; i<stacks[0].effects.Length; i++) {
+				PlayEffect(stacks[0].effects[i]); 
+			}
+		}
+
+		IEnumerator PlayEffectSequenceImpl() {
+			yield return null;
 		}
 
 		/// <summary>

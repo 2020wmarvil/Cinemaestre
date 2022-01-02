@@ -34,9 +34,9 @@ public class CinemaestreCameraEditor : Editor {
         GuiLine(2);
         EditorGUILayout.Space();
 
-        EditorGUILayout.LabelField("<color=white>Effects</color>", myStyle); 
+        EditorGUILayout.LabelField("<color=white>Effect Stacks</color>", myStyle); 
 		serializedObject.Update();
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("effects"), GUILayout.ExpandHeight(true));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("stacks"), GUILayout.ExpandHeight(true));
 		serializedObject.ApplyModifiedProperties();
 
 		serializedObject.Update();

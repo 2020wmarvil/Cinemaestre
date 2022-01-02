@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1478.8682, g: 1831.9521, b: 2425.4668, a: 1}
+  m_IndirectSpecularColor: {r: 1481.7754, g: 1835.8867, b: 2430.4492, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1949,6 +1949,68 @@ MonoBehaviour:
     m_CSVersion: 1
     m_ObsoleteSphereInfiniteProjection: 0
     m_ObsoleteBoxInfiniteProjection: 0
+--- !u!1 &237817224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 237817226}
+  - component: {fileID: 237817225}
+  m_Layer: 0
+  m_Name: ListTest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &237817225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237817224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b75c5606e736c094da07f1e52a74a240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MyList:
+  - AnGO: {fileID: 0}
+    AnInt: 0
+    AnFloat: 0
+    AnVector3: {x: 0, y: 0, z: 0}
+    AnIntArray: 
+    effects: []
+  - AnGO: {fileID: 0}
+    AnInt: 0
+    AnFloat: 0
+    AnVector3: {x: 0, y: 0, z: 0}
+    AnIntArray: 
+    effects: []
+  - AnGO: {fileID: 0}
+    AnInt: 0
+    AnFloat: 0
+    AnVector3: {x: 0, y: 0, z: 0}
+    AnIntArray: 
+    effects: []
+--- !u!4 &237817226
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237817224}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &248024620
 GameObject:
   m_ObjectHideFlags: 0
@@ -26211,134 +26273,35 @@ MonoBehaviour:
   Activate:
     m_PersistentCalls:
       m_Calls: []
-  effect:
-    effectType: 0
-    duration: 10
-    loop: 0
-    iterations: 1
-    loopForever: 1
-    pingpong: 0
-    easeType: 24
-    customEase: 0
-    easeAnimationCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    slideType: 2
-    slideWorldPos: {x: 0, y: 0, z: 0}
-    slideLocalOffset: {x: 0, y: 0, z: 0}
-    slideMoveDir: {x: 0, y: 0, z: 1}
-    slideMoveDistance: 2
-    panDirection: 1
-    panCustomDirection: 0
-    panAxisOfRotation: {x: 0, y: 0, z: 0}
-    panGlobalSpace: 0
-    panAngle: 0
-    zoomTargetFOV: 0
-    fadeColor: {r: 0, g: 0, b: 0, a: 0}
-    fadeOut: 1
-  effects:
-  - effectType: 0
-    duration: 0
-    loop: 0
-    iterations: 0
-    loopForever: 0
-    pingpong: 0
-    easeType: 0
-    customEase: 0
-    easeAnimationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 0
-      m_PostInfinity: 0
-      m_RotationOrder: 0
-    slideType: 0
-    slideWorldPos: {x: 0, y: 0, z: 0}
-    slideLocalOffset: {x: 0, y: 0, z: 0}
-    slideMoveDir: {x: 0, y: 0, z: 0}
-    slideMoveDistance: 0
-    panDirection: 0
-    panCustomDirection: 0
-    panAxisOfRotation: {x: 0, y: 0, z: 0}
-    panGlobalSpace: 0
-    panAngle: 0
-    zoomTargetFOV: 0
-    fadeColor: {r: 0, g: 0, b: 0, a: 0}
-    fadeOut: 1
-  - effectType: 0
-    duration: 0
-    loop: 0
-    iterations: 0
-    loopForever: 0
-    pingpong: 0
-    easeType: 0
-    customEase: 0
-    easeAnimationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 0
-      m_PostInfinity: 0
-      m_RotationOrder: 0
-    slideType: 0
-    slideWorldPos: {x: 0, y: 0, z: 0}
-    slideLocalOffset: {x: 0, y: 0, z: 0}
-    slideMoveDir: {x: 0, y: 0, z: 0}
-    slideMoveDistance: 0
-    panDirection: 0
-    panCustomDirection: 0
-    panAxisOfRotation: {x: 0, y: 0, z: 0}
-    panGlobalSpace: 0
-    panAngle: 0
-    zoomTargetFOV: 0
-    fadeColor: {r: 0, g: 0, b: 0, a: 0}
-    fadeOut: 1
-  - effectType: 0
-    duration: 0
-    loop: 0
-    iterations: 0
-    loopForever: 0
-    pingpong: 0
-    easeType: 0
-    customEase: 0
-    easeAnimationCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 0
-      m_PostInfinity: 0
-      m_RotationOrder: 0
-    slideType: 0
-    slideWorldPos: {x: 0, y: 0, z: 0}
-    slideLocalOffset: {x: 0, y: 0, z: 0}
-    slideMoveDir: {x: 0, y: 0, z: 0}
-    slideMoveDistance: 0
-    panDirection: 1
-    panCustomDirection: 0
-    panAxisOfRotation: {x: 0, y: 0, z: 0}
-    panGlobalSpace: 0
-    panAngle: 0
-    zoomTargetFOV: 0
-    fadeColor: {r: 0, g: 0, b: 0, a: 0}
-    fadeOut: 1
+  stacks:
+  - effects:
+    - effectType: 0
+      duration: 0
+      loop: 0
+      iterations: 0
+      loopForever: 0
+      pingpong: 0
+      easeType: 0
+      customEase: 0
+      easeAnimationCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+      slideType: 0
+      slideWorldPos: {x: 0, y: 0, z: 0}
+      slideLocalOffset: {x: 0, y: 0, z: 0}
+      slideMoveDir: {x: 0, y: 0, z: 0}
+      slideMoveDistance: 0
+      panDirection: 0
+      panCustomDirection: 0
+      panAxisOfRotation: {x: 0, y: 0, z: 0}
+      panGlobalSpace: 0
+      panAngle: 0
+      zoomTargetFOV: 0
+      fadeColor: {r: 0, g: 0, b: 0, a: 0}
+      fadeOut: 0
   autoplay: 0
   OnStart:
     m_PersistentCalls:
