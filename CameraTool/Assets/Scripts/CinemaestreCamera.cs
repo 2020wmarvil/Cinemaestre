@@ -11,16 +11,19 @@ using UnityEngine.UI;
 // [x] Lerp FOV (in and out with an adjustable time rate)
 // [ ] Delay
 // [x] Stack Inspector
-// [ ] Effect Inspector
+// [x] Effect Inspector
 // [x] Tooltips
 // [x] Event trigger
 // [x] Events
 // [x] Create a struct to handle array of effects
-// [ ] Effect Stack implementations
-// play, pause, stop
-// for all and by index
-// loop on a stack basis
+// [ ] Stack looping
 // [ ] Create a simple C# API
+//	  play, pause, stop for individual stacks, all stacks, and individual effects not associated with a stack
+//	  for all and by index
+//	  loop on a stack basis
+//	  add and remove effects from a stack
+//	  events for onstart, oncomplete, onloop, oneffectcomplete
+// [ ] Effect Inspector Resizing bug
 // [ ] Comments, debug warnings and such
 // [ ] Demos + Documentation
 
@@ -136,6 +139,8 @@ namespace Cinemaestre {
 				lt = GetZoomLT(effect);
 			} else if (effect.effectType == CinemaestreEffectType.FADE) {
 				lt = GetFadeLT(effect);
+			} else if (effect.effectType == CinemaestreEffectType.DELAY) {
+				lt = GetDelayLT(effect);
 			} else { lt = null; } // this is not good haha
 
 			if (effect.customEase) { 
@@ -207,6 +212,10 @@ namespace Cinemaestre {
 					c.a = effect.fadeOut ? value : 1f - value;
 					fadePanel.color = c;
 				});
+		}
+
+		LTDescr GetDelayLT(CinemaestreEffect effect) {
+			return LeanTween.value(0f, 1f, effect.duration);
 		}
 		#endregion
 	}

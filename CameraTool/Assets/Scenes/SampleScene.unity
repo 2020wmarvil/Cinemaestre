@@ -26208,7 +26208,91 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ca82655ea745343869d1dffdc20635, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stacks: []
+  stacks:
+  - autoplay: 0
+    loop: 0
+    loopForever: 1
+    iterations: 1
+    pingpong: 0
+    OnStart:
+      m_PersistentCalls:
+        m_Calls: []
+    OnLoop:
+      m_PersistentCalls:
+        m_Calls: []
+    OnComplete:
+      m_PersistentCalls:
+        m_Calls: []
+    effects:
+    - effectType: 0
+      duration: 2
+      easeType: 0
+      customEase: 0
+      easeAnimationCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+      slideType: 2
+      slideWorldPos: {x: 0, y: 0, z: 0}
+      slideLocalOffset: {x: 0, y: 0, z: 0}
+      slideMoveDir: {x: 0, y: 10, z: 0}
+      slideMoveDistance: 1
+      panDirection: 0
+      panCustomDirection: 0
+      panAxisOfRotation: {x: 0, y: 0, z: 0}
+      panGlobalSpace: 0
+      panAngle: 0
+      zoomTargetFOV: 0
+      fadeColor: {r: 0, g: 0, b: 0, a: 0}
+      fadeOut: 0
+    - effectType: 4
+      duration: 2
+      easeType: 0
+      customEase: 0
+      easeAnimationCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+      slideType: 0
+      slideWorldPos: {x: 0, y: 0, z: 0}
+      slideLocalOffset: {x: 0, y: 0, z: 0}
+      slideMoveDir: {x: 0, y: 0, z: 0}
+      slideMoveDistance: 0
+      panDirection: 0
+      panCustomDirection: 0
+      panAxisOfRotation: {x: 0, y: 0, z: 0}
+      panGlobalSpace: 0
+      panAngle: 0
+      zoomTargetFOV: 0
+      fadeColor: {r: 0, g: 0, b: 0, a: 0}
+      fadeOut: 0
+    - effectType: 0
+      duration: 2
+      easeType: 0
+      customEase: 0
+      easeAnimationCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+      slideType: 2
+      slideWorldPos: {x: 0, y: 0, z: 0}
+      slideLocalOffset: {x: 0, y: 0, z: 0}
+      slideMoveDir: {x: 1, y: 0, z: 0}
+      slideMoveDistance: 5
+      panDirection: 0
+      panCustomDirection: 0
+      panAxisOfRotation: {x: 0, y: 0, z: 0}
+      panGlobalSpace: 0
+      panAngle: 0
+      zoomTargetFOV: 0
+      fadeColor: {r: 0, g: 0, b: 0, a: 0}
+      fadeOut: 0
 --- !u!1 &1981861126
 GameObject:
   m_ObjectHideFlags: 3
