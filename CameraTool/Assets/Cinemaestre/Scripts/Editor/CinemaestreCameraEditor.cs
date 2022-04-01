@@ -74,6 +74,9 @@ public class CinemaestreCameraEditor : Editor {
                 for(int a = 0; a < effectList.arraySize; a++){
                     //Repaint();
                     EditorGUILayout.PropertyField(effectList.GetArrayElementAtIndex(a));
+
+                    float height = EditorGUI.GetPropertyHeight(effectList.GetArrayElementAtIndex(a), null, true);
+
                     //Repaint();
                     if(GUILayout.Button("Remove Effect", GUILayout.MaxWidth(100),GUILayout.MaxHeight(15))){
                         effectList.DeleteArrayElementAtIndex(a);

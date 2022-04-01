@@ -1,16 +1,22 @@
 using UnityEditor;
 using UnityEngine;
-using Cinemaestre;
+using System.Collections.Generic;
 
 [CustomPropertyDrawer(typeof(CinemaestreEffect))]
 public class CinemaestreEffectDrawer : PropertyDrawer {
 	float extraHeight = 0f;
 	float lineHeight = 20f;
 
+	class ViewData {
+         public float height;
+    }
+     
+    Dictionary<string, ViewData> m_PerPropertyViewData = new Dictionary<string, ViewData>();
+
 	public override void OnGUI (Rect position, SerializedProperty property, GUIContent label) {
 		float yVal = 0f;
 
-		label = EditorGUI.BeginProperty(position, label, property); 
+		EditorGUI.BeginProperty(position, label, property); 
 		EditorGUI.indentLevel = 2;
 
 		#region GENERAL
@@ -47,7 +53,6 @@ public class CinemaestreEffectDrawer : PropertyDrawer {
 			new GUIContent("Effect Type", "Type of CinemaestreEffect to play")); yVal += lineHeight;
 		SerializedProperty effectProp = property.FindPropertyRelative("effectType");
 		if (effectProp.enumValueIndex == (int)CinemaestreEffectType.SLIDE) {
-			Debug.Log("slide");
 			EditorGUI.PropertyField(new Rect(0f, position.y + yVal, position.width, lineHeight), property.FindPropertyRelative("slideType"), 
 				new GUIContent("Slide Type", "Defines how the Slide should interpret the position data")); yVal += lineHeight;
 
@@ -95,14 +100,22 @@ public class CinemaestreEffectDrawer : PropertyDrawer {
 		EditorGUI.indentLevel = 0;
 		EditorGUI.EndProperty();
 
-		extraHeight = yVal;
-
-		if (effectProp.enumValueIndex == (int)CinemaestreEffectType.SLIDE) {
-			Debug.Log(extraHeight);
-		}
+		ViewData viewData;
+        if (!m_PerPropertyViewData.TryGetValue(property.propertyPath, out viewData)) {
+			viewData = new ViewData();
+			m_PerPropertyViewData[property.propertyPath] = viewData;
+        }
+		viewData.height = yVal;
+		m_PerPropertyViewData[property.propertyPath] = viewData;
 	}
 
-	public override float GetPropertyHeight (SerializedProperty prop, GUIContent label) {
-	   return base.GetPropertyHeight(prop, label) + extraHeight - lineHeight;
+	public override float GetPropertyHeight (SerializedProperty property, GUIContent label) {
+		ViewData viewData;
+        if (!m_PerPropertyViewData.TryGetValue(property.propertyPath, out viewData)) {
+			viewData = new ViewData();
+			m_PerPropertyViewData[property.propertyPath] = viewData;
+        }
+
+		return base.GetPropertyHeight(property, label) + viewData.height - lineHeight;
 	}
 }

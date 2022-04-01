@@ -7,23 +7,14 @@ public class Demo : MonoBehaviour {
 
 	void Start() {
 		cam = GameObject.Find("Main Camera").GetComponent<CinemaestreCamera>();
+
+
+		// create stack, set parameters, and add it
 	}
 
 	void Update() {
 		if (Keyboard.current.spaceKey.wasPressedThisFrame) {
 			cam.PlayEffectStack(0);
 		}
-	}
-
-	public void OnStart() {
-		print("Start");
-	}
-
-	public void OnLoop() {
-		print("Loop");
-	}
-
-	public void OnComplete() {
-		print("Complete");
 	}
 }

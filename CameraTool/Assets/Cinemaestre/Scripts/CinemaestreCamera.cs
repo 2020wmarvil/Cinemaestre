@@ -17,24 +17,14 @@ using UnityEngine.UI;
 // [x] Events
 // [x] Create a struct to handle array of effects
 // [x] Stack looping
-// [ ] Test stack events
-// [ ] Create a simple C# API
-//	  play, pause, stop for individual stacks, all stacks, and individual effects not associated with a stack
-//	  for all and by index
-//	  loop on a stack basis
-//	  add and remove effects from a stack
-//	  events for onstart, oncomplete, onloop, oneffectcomplete
-// [ ] Place OnEffectComplete in the inspector?
-// [ ] Effect Inspector Resizing bug
-// [ ] Comments, debug warnings and such
+// [x] Test stack events
+// [x] Create a simple C# API
+//	   [x] play for stacks and effects
+//	   [x] add and remove stacks + effects
+// [x] Effect Inspector Resizing bug
+// [x] Comments, warnings and such
 // [ ] Demos + Documentation
-
-// Further development
-// [ ] Slide splining
-// [ ] Scene handles for rotations
-// [ ] Fade render pass - https://www.youtube.com/watch?v=vBqSSXjQvCo
-// [ ] Pan around a target object
-// [ ] Replace leantween with custom ease functions: https://easings.net/
+// [ ] Export for Legacy, URP, and HDRP
 
 public enum CinemaestreEffectType { SLIDE, PAN, ZOOM, FADE, DELAY }
 public enum SlideType { WORLD_POS, LOCAL_OFFSET, DIR_AND_MAG }
@@ -88,15 +78,18 @@ public class CinemaestreStack {
 	public UnityEvent OnLoop;
 	public UnityEvent OnComplete;
 
-	public CinemaestreEffect[] effects; // each stack knows how to update on its own
+	public CinemaestreEffect[] effects;
 }
 #endregion
 
 namespace Cinemaestre {
 	public class CinemaestreCamera : MonoBehaviour {
+		/// <summary>
+		/// List of the CinemaestreStacks. Manipulate this manually, using the API, or through the editor interface. 
+		/// </summary>
 		public List<CinemaestreStack> stacks = new List<CinemaestreStack>();
 
-		Image fadePanel; // TODO: replace with render pass
+		Image fadePanel; 
 
 		#region UNITY FUNCTIONS
 		void Start() {
@@ -122,6 +115,59 @@ namespace Cinemaestre {
 		/// <returns></returns>
 		public Coroutine PlayEffect(CinemaestreEffect effect) {
 			return StartCoroutine(PlayEffectImpl(effect));
+		}
+
+		/// <summary>
+		/// Append a stack to the stack list. Returns the stack index.
+		/// </summary>
+		/// <param name="stack"></param>
+		public int AddStack(CinemaestreStack stack) {
+			stacks.Add(stack);
+			return stacks.Count - 1;
+		}
+
+		/// <summary>
+		/// Insert an effect into the specified stack at the given index. 
+		/// </summary>
+		/// <param name="effect"></param>
+		/// <param name="stackIndex"></param>
+		/// <param name="effectIndex"></param>
+		public void InsertEffect(CinemaestreEffect effect, int stackIndex, int effectIndex) {
+			CinemaestreEffect[] effects = stacks[stackIndex].effects;
+			CinemaestreEffect[] newEffects = new CinemaestreEffect[effects.Length + 1];
+
+			for (int i=0; i<newEffects.Length; i++) {
+				if (i == effectIndex) newEffects[i] = effect;
+				else if (i < effectIndex) newEffects[i] = effects[i];
+				else if (i > effectIndex) newEffects[i + 1] = effects[i];
+			}
+
+			stacks[stackIndex].effects = newEffects;
+		}
+
+		/// <summary>
+		/// Remove a stack at the given index.
+		/// </summary>
+		/// <param name="stackIndex"></param>
+		public void RemoveStack(int stackIndex) {
+			stacks.RemoveAt(stackIndex);
+		}
+
+		/// <summary>
+		/// Remove an effect at the given stack and effect index. 
+		/// </summary>
+		/// <param name="stackIndex"></param>
+		/// <param name="effectIndex"></param>
+		public void RemoveEffect(int stackIndex, int effectIndex) {
+			CinemaestreEffect[] effects = stacks[stackIndex].effects;
+			CinemaestreEffect[] newEffects = new CinemaestreEffect[effects.Length - 1];
+
+			for (int i=0; i<newEffects.Length; i++) {
+				if (i < effectIndex) newEffects[i] = effects[i];
+				else newEffects[i] = effects[i+1];
+			}
+
+			stacks[stackIndex].effects = newEffects;
 		}
 		#endregion
 
@@ -244,6 +290,10 @@ namespace Cinemaestre {
 
 		LTDescr GetFadeLT(CinemaestreEffect effect, bool forward) {
 			fadePanel = GameObject.Find("FadePanel").GetComponent<Image>();
+			if (fadePanel == null) {
+				Debug.LogError("Error: To use the fade effect you must have the CinemaestreFadeCanvas in the scene.");
+				return null;
+			}
 
 			bool fadeOut = forward ? effect.fadeOut : !effect.fadeOut;
 
